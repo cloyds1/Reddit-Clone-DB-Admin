@@ -4,7 +4,9 @@ session_start();
 if(!isset($_SESSION['user-data'])){
 	header('Location: ../login/login.php');
 }
-	
+
+require_once('../utils/dbUtil.php');
+require_once('../utils/settings.php');
 require('../rsrc/header.php');
 
 

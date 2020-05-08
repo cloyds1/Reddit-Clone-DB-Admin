@@ -1,15 +1,19 @@
 <?php
 	
 session_start();
+
 require_once('../utils/dbUtil.php');
-	
-if(unserialize($_SESSION['usser-data'])->authority != 'admin'){
+require_once('../utils/settings.php');
+
+#check if logged in	
+if(unserialize($_SESSION['user-data'])->authority != 'admin'){
 		
 	header('Location: ../login/login.php');
 		
 }
 	
 require('../rsrc/header.php');
+
 
 ?>
 
@@ -22,15 +26,15 @@ require('../rsrc/nav_bar.php');
 
 ?>
 
-<h3 class="full-post-style">Select a post you wish to edit.</h3>
+<div class="choice-container">
+<a href="usermanage.php"><div  class="choice">
+<h2>Manage users</h2>
+</div></a>
 
-<?php	
-	
-	foreach($posts as $post){
-		$post->echoPostEdit();
-	}
-			
-?>
+<a href="postmanage.php"><div class="choice">
+<h2>Manage Posts</h2>
+</div></a>
+</div>
 
 </body
 </body

@@ -6,6 +6,7 @@ if(!isset($_SESSION['user-data'])){
 	header('Location: ../login/login.php');
 }
 
+
 if(!is_numeric($_GET['id']) || $_GET['id']<0){
 	
 	header('Location: edit.php');
@@ -13,16 +14,18 @@ if(!is_numeric($_GET['id']) || $_GET['id']<0){
 }
 
 #import necessary files
-require('../utils/dbUtil.php');
-
-#connect to the database
-$db = mysqli_connect('localhost', 'cloyds1', 'reCxJWbyoUxEx82E', 'redditclonedb');
+require_once('../utils/dbUtil.php');
+require_once('../utils/settings.php');
 
 #get user data
 $user_data = unserialize($_SESSION['user-data']);
 
 #get post at id
 $post = DatabaseUtil::readEntry($_GET['id'], 'posts', $db);
+
+if(($post->userID != $user_data->id)){
+	header('Location: edit.php');
+}
 
 require('../rsrc/header.php');
 

@@ -1,5 +1,6 @@
 <?php 
-	
+
+
 $currentDirectory = explode('/', $_SERVER['PHP_SELF']);
 
 $inRoot = True;
@@ -8,7 +9,7 @@ if($currentDirectory[count($currentDirectory) - 2] != 'Reddit Clone'){
 }
 
 $session_not_set = !isset($_SESSION['user-data']);
-	
+
 	
 ?>
 	
@@ -42,29 +43,38 @@ $session_not_set = !isset($_SESSION['user-data']);
 				
 				$userdataobj = unserialize($_SESSION['user-data']);
 				$path = ($inRoot? '' :'../');
+				
 				if($userdataobj->authority == 'admin'){
 					$path = $path.'privs/admin.php';
 					echo "<hr><a class=\"dropdown-item\" href=\"$path\">Special privileges</a>";
 				}
 				
 				else if($userdataobj->authority == 'manager'){
-					$path = $path.'privs/manager.php';
+					$path = $path.'privs/postmanage.php';
 					echo "<hr><a class=\"dropdown-item\" href=\"$path\">Special privileges</a>";
 				}
 			}
 		  
 		  ?>
 		  
-		  
-          
           
         </div>
+		
+		
 		
       </li>
       <li class="nav-item">
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
       </li>
     </ul>
+	
+	<?php 
+			
+		if(isset($_SESSION['user-data'])){
+			$userdataobj = unserialize($_SESSION['user-data']);
+			echo '<a href="'.($inRoot? '' :'../').'rsrc/bio.php?id='.$userdataobj->id.'"><div class="userbubble box"><b>'.$userdataobj->username.'</b></div></a>';
+		}
+	?>
 	
 	<?php 
 		
@@ -78,6 +88,8 @@ $session_not_set = !isset($_SESSION['user-data']);
 		}
 		
 	?>
+	
+	
 	
 	
 

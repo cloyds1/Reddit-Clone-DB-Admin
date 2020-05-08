@@ -9,9 +9,7 @@ if(!isset($_SESSION['user-data'])){
 
 #import necessary file
 require('../utils/dbUtil.php');
-
-#connect to database
-$db = mysqli_connect('localhost', 'cloyds1', 'reCxJWbyoUxEx82E', 'redditclonedb');
+require_once('../utils/settings.php');
 
 #get user data
 $user_data = unserialize($_SESSION['user-data']);

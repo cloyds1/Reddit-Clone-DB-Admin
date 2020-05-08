@@ -10,63 +10,51 @@ if(!isset($_SESSION['user-data'])){
 
 #import necessary files
 require('../utils/dbUtil.php');
-
-#connect to database
-$db = mysqli_connect('localhost', 'cloyds1', 'reCxJWbyoUxEx82E', 'redditclonedb');
+require_once('../utils/settings.php');
 
 #get user data
 $user_data = unserialize($_SESSION['user-data']);
 
-
-#check authority of user. If admin, display UI for filtering user types and posts for specific users. If manager, display UI
-#for editing own posts, filtering user types, and posts for specific users that are NOT Admin. If User, display only own posts.
-
-/*case($user_data->authority){
-	
-		case 'admin':
-			DisplayFuncs::displayAdmin();
-			$data = mysqli_query($db, "SELECT * FROM posts;");
-			break;
-			
-		case 'manager':
-			DisplayFuncs::displayManager();
-			$data = mysqli_query($db, "SELECT FROM posts WHERE authority <> 'Admin';"
-			break;
-			
-		case 'user':
-			$posts = DatabaseUtil::readAllUserPosts($user_data->id, $db);
-			break;
-		
-	}*/
-
-#get posts created by this user
+#get the posts created by current user
 $posts = DatabaseUtil::readAllUserPosts($user_data->id, $db);
 
-
+#Maybe implement: check authority of user. If admin, display UI for filtering user types and posts for specific users. If manager, display UI
+#for editing own posts, filtering user types, and posts for specific users that are NOT Admin. If User, display only own posts.
+/*switch($user_data->authority){
+	
+	case "admin":
+		#send to admin page
+		header('Location: ../privs/admin.php');
+		break;
+		
+	case "manager":
+		#send to manager page
+		header('Location: ../privs/manager.php');
+		break;
+		
+	case "user":
+		#do nothing if type is user
+		break;
+		
+}*/
 
 require('../rsrc/header.php');
 
 ?>
 
-
 <body>
 
-
-<?php 
-
-#import necessary file in specific place
-require('../rsrc/nav_bar.php'); 
-
-?>
+<?php require('../rsrc/nav_bar.php'); ?>
 
 <h3 class="full-post-style">Select a post you wish to edit.</h3>
 
 <?php	
-	
+
+	#echo all posts for users of type 'user'
 	foreach($posts as $post){
 		$post->echoPostEdit();
 	}
-			
+		
 ?>
 
 </body

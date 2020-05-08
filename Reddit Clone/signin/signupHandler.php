@@ -6,6 +6,7 @@ if(isset($_SESSION['user-data'])){
 	header('Location: ../index.php');
 }
 
+#retrieve form data
 $username = strip_tags($_POST['usrname']);
 $email = strip_tags($_POST['email']);
 $password = hash('sha256', strip_tags($_POST['password']));
@@ -15,16 +16,14 @@ if(!isset($username) or !isset($email) or !isset($password)){
 	header('Location: signup.php');
 }
 
-#import necessary file
+#import necessary files (place here, because why include a file, then immediately redirect because of an error?
 require_once('../utils/dbUtil.php');
-
-#connect to the database
-$db = mysqli_connect('localhost', 'cloyds1', 'reCxJWbyoUxEx82E', 'redditclonedb');
+require_once('../utils/settings.php');
 
 #instatiate a user object with retrieved parameters
 $user = new User(null, null, $username, $password, null, $email);
 
-#check if call to createEntry fails.   
+#check if call to createEntry() fails.   
 if(!DatabaseUtil::createEntry($user, $db)){
 	
 	#If so, check if it is a duplicate error.
@@ -40,11 +39,19 @@ if(!DatabaseUtil::createEntry($user, $db)){
 		
 		#If duplicate user name, send name-conflict
 		else if($field == 'username'){
+			
 			header('Location: signup.php?message=name-conflict');
 		
 		}	
 	}
+	
+	
 }
+
+#if it doesn't fail, go to home page
+else{
+		header('Location: ../index.php');
+	}
 
 
 ?>

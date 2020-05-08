@@ -7,15 +7,14 @@ if(!isset($_SESSION['user-data'])){
 	header('Location: ../login/login.php');
 }
 
-#import necessary files, get user data object from session variable
+#import necessary files
 require_once('../utils/dbUtil.php');
+require_once('../utils/settings.php');
+
+#get user data object from session variable
 $user_data = unserialize($_SESSION['user-data']);
 
-#connect to the database
-$db = mysqli_connect('localhost', 'cloyds1', 'reCxJWbyoUxEx82E', 'redditclonedb');
-
 #delete all entries selected
-
 if(isset($_POST['id'])){
 	
 	foreach($_POST['id'] as $i){
@@ -23,6 +22,7 @@ if(isset($_POST['id'])){
 		DatabaseUtil::deleteEntry($i, 'posts', $db); 
 	
 	}
+	
 }
 
 	
